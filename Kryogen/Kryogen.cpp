@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <string>
 
 class Cat
@@ -45,10 +45,9 @@ public:
         std::string info;
         info = "Name: " + name_ + ", ";
         info += "Age: " + std::to_string(age_) + ", ";
-        info += "Sex: " + (sex_) ? "female" : "male";
+        info += "Sex: " + (sex_)? "male":"female";
         return info;
     }
-    //sigma
 private:
     std::string name_;
     int age_;
@@ -59,6 +58,32 @@ private:
 class ZooMotel
 {
 public:
+    ZooMotel()
+    {
+        name_ = "Default Motel";
+        cats_ = nullptr;
+        countOfCats_ = 0; 
+    }
+    ZooMotel(const ZooMotel& other)
+    {
+        name_ = other.name_;
+        countOfCats_ = other.countOfCats_;
+        cats_ = new Cat[countOfCats_];
+        for (int i = 0; i < countOfCats_; i++)
+        {
+            cats_[i] = other[i];
+        }
+    }
+    ZooMotel(ZooMotel&& other)
+    {
+        name_ = "Default Motel";
+        cats_ = nullptr;
+        countOfCats_ = 0;
+        std::swap(name_, other.name_);
+        std::swap(cats_, other.cats_);
+        std::swap(countOfCats_, other.countOfCats_);
+
+    }
     void AddCat(Cat& newCat)
     {
         if (!cats_)
@@ -130,18 +155,27 @@ private:
     int countOfCats_;
 };
 
+void BlackMagic(ZooMotel zero)
+{
+
+}
+
 int main()
 {
-    /*Cat Jamal;
-    std::cout << Jamal.Info() << "\n";*/
-
-
+    ZooMotel hotel;
+    Cat Jamal;
+    Jamal.SetName("Jamal");
+    Jamal.SetAge(4);
+    Jamal.SetSex(false);
+    hotel.AddCat(Jamal);
+    std::cout << hotel[0].Info() << "\n";
     //Агрегация - способ связи классов в котором класс хранения не несёт
     // ответственности за время жизни самого компанента.
     // - способ связи классов в котором отсутсвие компонента не приведёт к нерабооспособности хранителя
-
+    BlackMagic(hotel);
     //Композиция - способ связи классов при котором класс хранения несёт ответствнность за время жизни компонента \
     // и имеет общее время жизни с компонентом
 
 }
+
 
